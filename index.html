@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبر نفسك مع xozero</title>
+    <style>
+        /* --- Global Styles & Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+        /* --- Base Setup --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* خلفية زرقاء غامقة وعميقة */
+            background: #0f0c29;
+            background: -webkit-linear-gradient(to top, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(to top, #24243e, #302b63, #0f0c29);
+            color: #e0e0e0; /* لون نص فاتح للتباين */
+            overflow-x: hidden; /* لمنع ظهور أي أشرطة تمرير بسبب المؤثرات */
+            position: relative;
+        }
+
+        /* --- Magical Particle Effect Container --- */
+        #particles-js {
+            position: fixed; /* استخدام fixed لتغطية الشاشة بالكامل خلف المحتوى */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* --- Main Container (to be above particles) --- */
+        .main-container {
+            width: 100%;
+            max-width: 600px; /* عرض مناسب للتخطيط العمودي */
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Vertical Logo --- */
+        .logo-container {
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-weight: 900;
+            color: #0d0d0d; /* أسود حالك */
+            cursor: default;
+            user-select: none;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1; /* تقليل المسافة بين السطور */
+            /* ظل احترافي متعدد الطبقات */
+            text-shadow: 
+                0px 4px 10px rgba(0, 0, 0, 0.5),
+                0px 8px 20px rgba(0, 0, 0, 0.3),
+                0px 0px 30px rgba(173, 216, 230, 0.1); /* ظل أزرق خفيف جداً */
+            animation: text-flicker 8s linear infinite;
+        }
+
+        .logo .xo {
+            font-size: 7rem;
+        }
+
+        .logo .zero {
+            font-size: 6rem; /* أصغر قليلاً */
+        }
+
+        /* Glitch/Distortion Animation */
+        @keyframes text-flicker {
+            0%, 100% { text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5), 0px 8px 20px rgba(0, 0, 0, 0.3), 0px 0px 30px rgba(173, 216, 230, 0.1); }
+            25% { text-shadow: 2px 2px 8px rgba(255, 0, 0, 0.3), -2px -2px 8px rgba(0, 255, 255, 0.3), 0px 0px 20px rgba(173, 216, 230, 0.2); }
+            50% { text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5), 0px 8px 20px rgba(0, 0, 0, 0.3), 0px 0px 30px rgba(173, 216, 230, 0.1); }
+            75% { text-shadow: -2px 4px 8px rgba(255, 0, 0, 0.3), 2px -2px 8px rgba(0, 255, 255, 0.3), 0px 0px 25px rgba(173, 216, 230, 0.2); }
+        }
+
+        .logo-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #a7a4c4; /* لون متناسق مع الخلفية الغامقة */
+            margin-top: 20px; /* زيادة المسافة بعد الشعار */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- Vertical Test List --- */
+        .test-list {
+            display: flex;
+            flex-direction: column; /* ترتيب الأزرار عمودياً */
+            gap: 20px; /* المسافة بين الأزرار */
+        }
+
+        /* --- Dark Glassmorphism Buttons --- */
+        .glass-button {
+            display: block;
+            padding: 25px 20px;
+            text-decoration: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            
+            background: rgba(255, 255, 255, 0.05); /* شفافية قليلة جداً */
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glass-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px) scale(1.02); /* تعديل حركة المرور */
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+        }
+        
+        .glass-button .emoji {
+            display: inline-block; /* جعل الإيموجي بجانب النص */
+            margin-left: 15px; /* مسافة بين الإيموجي والنص */
+            vertical-align: middle;
+        }
+
+        /* --- Modal (Popup) Styles for Dark Theme --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(30, 27, 68, 0.85);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s ease;
+            color: #e0e0e0;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 { font-size: 2rem; margin-top: 0; margin-bottom: 25px; }
+        .modal-content p { font-size: 1.2rem; margin: 15px 0; direction: ltr; }
+        .modal-content a { color: #82aaff; text-decoration: none; font-weight: bold; }
+        .close-btn { margin-top: 30px; padding: 10px 30px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 10px; color: #fff; font-size: 1rem; cursor: pointer; transition: background 0.3s ease; }
+        .close-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+    </style>
+</head>
+<body>
+
+    <!-- حاوية المؤثرات السحرية -->
+    <div id="particles-js"></div>
+
+    <div class="main-container">
+        
+        <div class="logo-container">
+            <div class="logo">
+                <span class="xo">xo</span>
+                <span class="zero">zero</span>
+            </div>
+            <div class="logo-subtitle">اختبر نفسك مع</div>
+        </div>
+
+        <!-- قائمة الاختبارات العمودية -->
+        <div class="test-list">
+            <!-- الروابط هنا لا تؤدي إلى أي مكان حاليًا (href="#") -->
+            <a href="h.html" class="glass-button"><span class="emoji">💖</span> اختبار الحب</a>
+            <a href="a.html" class="glass-button"><span class="emoji">😂</span> اختبار الهبل</a>
+            <a href="z.html" class="glass-button"><span class="emoji">💡</span> اختبار الذكاء</a>
+            <a href="p.html" class="glass-button"><span class="emoji">🎭</span> اختبار الشخصية</a>
+            <a href="l.html" class="glass-button"><span class="emoji">🎨</span> اختبار الألوان</a>
+            <a href="e.html" class="glass-button"><span class="emoji">😈</span> اختبار الشر</a>
+            <a href="j.html" class="glass-button"><span class="emoji">😍</span> اختبار الجاذبية</a>
+            <a href="#" id="contactBtn" class="glass-button"><span class="emoji">✉️</span> تواصل</a>
+        </div>
+
+    </div>
+
+    <!-- النافذة المنبثقة (Modal) للتواصل -->
+    <div id="contactModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>معلومات التواصل</h2>
+            <p><strong>الإيميل:</strong> <a href="mailto:xozero010@gmail.com">xozero010@gmail.com</a></p>
+            <p><strong>رقم الهاتف:</strong> <a href="tel:+201096716839">+201096716839</a></p>
+            <button id="closeBtn" class="close-btn">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- مكتبة المؤثرات السحرية (particles.js) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // --- JavaScript لتشغيل المؤثرات السحرية ---
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 2, "random": true, "anim": { "enable": false } },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 0.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" }, "onclick": { "enable": false } },
+                "modes": { "repulse": { "distance": 60, "duration": 0.4 } }
+            },
+            "retina_detect": true
+        });
+
+        // --- JavaScript للتحكم في نافذة التواصل المنبثقة ---
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // فتح النافذة عند الضغط على زر التواصل
+        contactBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // منع السلوك الافتراضي للرابط
+            contactModal.classList.add('active');
+        });
+
+        // إغلاق النافذة عند الضغط على زر الإغلاق
+        closeBtn.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+        });
+
+        // إغلاق النافذة عند الضغط خارجها
+        contactModal.addEventListener('click', (event) => {
+            if (event.target === contactModal) {
+                contactModal.classList.remove('active');
+            }
+        });
+    </script>
+
+    <!-- Footer Section -->
+    <footer style="background-color: #000; color: #fff; padding: 40px 20px; margin-top: 60px; position: relative; z-index: 1;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
+                <!-- Logo Section -->
+                <div style="flex: 1; min-width: 200px;">
+                    <div style="margin-bottom: 20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="150" height="75">
+                            <defs>
+                                <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="shadow">
+                                    <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.5"/>
+                                </filter>
+                            </defs>
+                            <text x="20" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#blueGrad)" filter="url(#shadow)">X</text>
+                            <text x="70" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#blueGrad)" filter="url(#shadow)">O</text>
+                            <path d="M 15 75 Q 100 85 185 70" stroke="#C0C0C0" stroke-width="3" fill="none" opacity="0.8"/>
+                            <text x="100" y="92" font-family="Arial, sans-serif" font-size="10" font-weight="normal" fill="#4169E1" text-anchor="middle">ZAMZAXOZERO</text>
+                        </svg>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.6; color: #ccc;">منصة xozero لاختبارات الشخصية والترفيه. اكتشف نفسك من خلال اختباراتنا الممتعة والمتنوعة.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div style="flex: 1; min-width: 200px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: #4169E1;">روابط سريعة</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="index.html" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الصفحة الرئيسية</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html" style="color: #ccc; text-decoration: none; transition: color 0.3s;">سياسة الخصوصية</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html#security" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الأمان</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html#terms" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div style="flex: 1; min-width: 200px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: #4169E1;">معلومات التواصل</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.8; color: #ccc;">
+                        <strong>البريد الإلكتروني:</strong><br>
+                        <a href="mailto:xozero010@gmail.com" style="color: #82aaff; text-decoration: none;">xozero010@gmail.com</a>
+                    </p>
+                    <p style="font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-top: 15px;">
+                        <strong>رقم الهاتف:</strong><br>
+                        <a href="tel:+201014412927" style="color: #82aaff; text-decoration: none;">+201014412927</a>
+                    </p>
+                    <p style="font-size: 0.85rem; margin-top: 15px; color: #999;">للشكاوى والاستفسارات، نحن هنا لخدمتك.</p>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div style="border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; text-align: center;">
+                <p style="font-size: 0.85rem; color: #888;">&copy; 2024 xozero. جميع الحقوق محفوظة. | <a href="privacy.html" style="color: #82aaff; text-decoration: none;">سياسة الخصوصية</a> | <a href="privacy.html#terms" style="color: #82aaff; text-decoration: none;">الشروط والأحكام</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

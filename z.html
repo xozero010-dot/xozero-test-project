@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الذكاء</title>
+    <style>
+        /* --- Global Styles & Fonts --- */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+        :root {
+            --dark-blue-bg: #0f0c29;
+            --gradient-start: #302b63;
+            --gradient-end: #24243e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a7a4c4;
+            --accent-color: #82aaff; /* لون أزرق فاتح يناسب اختبار الذكاء */
+            --accent-dark: #000;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-color: rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- Base Setup --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--dark-blue-bg);
+            background: -webkit-linear-gradient(to top, var(--gradient-end), var(--gradient-start), var(--dark-blue-bg));
+            background: linear-gradient(to top, var(--gradient-end), var(--gradient-start), var(--dark-blue-bg));
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Magical Particle Effect Container --- */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* --- Main Test Container --- */
+        .test-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 750px;
+        }
+
+        .test-container {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px 40px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Hide/Show Logic */
+        .hidden {
+            display: none;
+        }
+
+        /* --- Test Header --- */
+        .test-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        .test-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+        .test-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Questions --- */
+        .question-block {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .question-block:last-of-type {
+            border-bottom: none;
+        }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .choices label {
+            display: block;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .choices label:hover {
+            border-color: var(--accent-color);
+        }
+        .choices input[type="radio"] {
+            display: none;
+        }
+        .choices input:checked + label {
+            background: var(--accent-color);
+            color: var(--accent-dark);
+            border-color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* --- Buttons --- */
+        .glass-button {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            margin-top: 20px;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--accent-color);
+            color: var(--accent-dark);
+            border-radius: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .glass-button:hover {
+            background: #a8c8ff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px 0 rgba(130, 170, 255, 0.2);
+        }
+
+        /* --- Result Styles --- */
+        .result-container {
+            text-align: center;
+        }
+        .result-emoji {
+            font-size: 6rem;
+            margin: 20px 0;
+            animation: pop-in 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        @keyframes pop-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .result-title {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        .result-description {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+        .result-score {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="test-wrapper">
+        <!-- حاوية الاختبار (الأسئلة) -->
+        <div id="test-content" class="test-container">
+            <div class="test-header">
+                <h1>💡 اختبار الذكاء</h1>
+                <p>جاوب على الأسئلة دي بأسرع إجابة منطقية تيجي في بالك. كل سؤال محتاج تركيز شوية!</p>
+            </div>
+            <form id="iq-test-form">
+                <div class="question-block">
+                    <p class="question-text">1. لو عندك 5 قطط، بيقدروا يصطادوا 5 فيران في 5 دقايق. طيب، كام قطة محتاج عشان تصطاد 100 فأر في 100 دقيقة؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q1a" name="q1" value="1"><label for="q1a">(أ) 100 قطة.</label>
+                        <input type="radio" id="q1b" name="q1" value="2"><label for="q1b">(ب) 50 قطة.</label>
+                        <input type="radio" id="q1c" name="q1" value="4"><label for="q1c">(ج) 5 قطط.</label>
+                        <input type="radio" id="q1d" name="q1" value="3"><label for="q1d">(د) 10 قطط.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">2. إيه الكلمة المختلفة عن باقي الكلمات دي؟ تفاحة، عنب، جزر، موز.</p>
+                    <div class="choices">
+                        <input type="radio" id="q2a" name="q2" value="2"><label for="q2a">(أ) تفاحة.</label>
+                        <input type="radio" id="q2b" name="q2" value="1"><label for="q2b">(ب) عنب.</label>
+                        <input type="radio" id="q2c" name="q2" value="4"><label for="q2c">(ج) جزر.</label>
+                        <input type="radio" id="q2d" name="q2" value="3"><label for="q2d">(د) موز.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">3. عندك 3 لمبات جوه أوضة مقفولة، و3 مفاتيح برا. إزاي تعرف كل مفتاح بتاع أنهي لمبة لو مسموحلك تدخل الأوضة مرة واحدة بس؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q3a" name="q3" value="1"><label for="q3a">(أ) تشغل مفتاح واحد بس وتدخل تشوف مين اللي نورت.</label>
+                        <input type="radio" id="q3b" name="q3" value="4"><label for="q3b">(ب) تشغل مفتاح لمدة 10 دقايق، تطفي، تشغل مفتاح تاني، وتدخل.</label>
+                        <input type="radio" id="q3c" name="q3" value="2"><label for="q3c">(ج) تشغل التلاتة مع بعض وتدخل.</label>
+                        <input type="radio" id="q3d" name="q3" value="3"><label for="q3d">(د) مستحيل تعرف من مرة واحدة.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">4. لو دخلت سباق وجريت عديت الشخص اللي في المركز التاني، يبقى مركزك إيه دلوقتي؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q4a" name="q4" value="1"><label for="q4a">(أ) الأول.</label>
+                        <input type="radio" id="q4b" name="q4" value="4"><label for="q4b">(ب) التاني.</label>
+                        <input type="radio" id="q4c" name="q4" value="2"><label for="q4c">(ج) الثالث.</label>
+                        <input type="radio" id="q4d" name="q4" value="3"><label for="q4d">(د) قبل الأخير.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">5. إيه الشيء اللي كل ما تاخد منه بيكبر؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q5a" name="q5" value="4"><label for="q5a">(أ) الحفرة.</label>
+                        <input type="radio" id="q5b" name="q5" value="3"><label for="q5b">(ب) العمر.</label>
+                        <input type="radio" id="q5c" name="q5" value="2"><label for="q5c">(ج) الدين (الديون).</label>
+                        <input type="radio" id="q5d" name="q5" value="1"><label for="q5d">(د) الخبرة.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">6. أبو مريم عنده 5 بنات: نانا، نيني، نونو، نيني. يبقى البنت الخامسة اسمها إيه؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q6a" name="q6" value="2"><label for="q6a">(أ) ناناه.</label>
+                        <input type="radio" id="q6b" name="q6" value="1"><label for="q6b">(ب) ناني.</label>
+                        <input type="radio" id="q6c" name="q6" value="4"><label for="q6c">(ج) مريم.</label>
+                        <input type="radio" id="q6d" name="q6" value="3"><label for="q6d">(د) السؤال ناقص.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">7. أنت سواق أتوبيس. في أول محطة ركب 10، وفي تاني محطة نزل 3 وركب 5. يبقى السواق عنده كام سنة؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q7a" name="q7" value="1"><label for="q7a">(أ) 12 سنة.</label>
+                        <input type="radio" id="q7b" name="q7" value="2"><label for="q7b">(ب) 25 سنة.</label>
+                        <input type="radio" id="q7c" name="q7" value="4"><label for="q7c">(ج) عمرك أنت.</label>
+                        <input type="radio" id="q7d" name="q7" value="3"><label for="q7d">(د) السؤال مالوش إجابة.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">8. إيه الشيء اللي سهل تدخله لكن صعب تطلع منه؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q8a" name="q8" value="2"><label for="q8a">(أ) النوم.</label>
+                        <input type="radio" id="q8b" name="q8" value="4"><label for="q8b">(ب) ورطة أو مشكلة.</label>
+                        <input type="radio" id="q8c" name="q8" value="1"><label for="q8c">(ج) البيت.</label>
+                        <input type="radio" id="q8d" name="q8" value="3"><label for="q8d">(د) الأسانسير.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">9. إذا كان إمبارح كان يوم الاثنين، يبقى بعد بكرة هيكون يوم إيه؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q9a" name="q9" value="2"><label for="q9a">(أ) الأربعاء.</label>
+                        <input type="radio" id="q9b" name="q9" value="4"><label for="q9b">(ب) الخميس.</label>
+                        <input type="radio" id="q9c" name="q9" value="3"><label for="q9c">(ج) الجمعة.</label>
+                        <input type="radio" id="q9d" name="q9" value="1"><label for="q9d">(د) الثلاثاء.</label>
+                    </div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">10. في نظام الأرقام ده: 4 = 16، 5 = 25، 6 = 36، يبقى 8 = إيه؟</p>
+                    <div class="choices">
+                        <input type="radio" id="q10a" name="q10" value="2"><label for="q10a">(أ) 48.</label>
+                        <input type="radio" id="q10b" name="q10" value="4"><label for="q10b">(ب) 64.</label>
+                        <input type="radio" id="q10c" name="q10" value="3"><label for="q10c">(ج) 72.</label>
+                        <input type="radio" id="q10d" name="q10" value="1"><label for="q10d">(د) 88.</label>
+                    </div>
+                </div>
+                <button type="submit" class="glass-button">عرض نسبة ذكائي</button>
+            </form>
+        </div>
+
+        <!-- ▼▼▼ حاوية النتيجة الجديدة ▼▼▼ -->
+        <div id="result-content" class="test-container result-container hidden">
+            <h1 id="result-title" class="result-title">النتيجة النهائية</h1>
+            <div id="result-emoji" class="result-emoji">🤔</div>
+            <p id="result-description" class="result-description">هنا سيتم عرض نص النتيجة.</p>
+            <p id="result-score" class="result-score"></p>
+            
+            <button id="share-btn" class="glass-button" style="background-color: #4CAF50; margin-bottom: 15px;">
+                شارك مع صحابك واعرف شخصيتهم
+            </button>
+            
+            <a href="index.html" class="glass-button">العب اختبار تاني</a>
+        </div>
+        <!-- ▲▲▲ نهاية حاوية النتيجة الجديدة ▲▲▲ -->
+    </div>
+
+    <!-- مكتبة المؤثرات السحرية (particles.js) -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- ▼▼▼ كود JavaScript الجديد ▼▼▼ -->
+    <script>
+        // --- JavaScript لتشغيل المؤثرات السحرية ---
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#82aaff" }, // لون الجزيئات أزرق فاتح
+                "shape": { "type": "circle" },
+                "opacity": { "value": 0.4, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
+                "size": { "value": 3, "random": true },
+                "line_linked": { "enable": false },
+                "move": { "enable": true, "speed": 0.6, "direction": "none", "random": true, "straight": false, "out_mode": "out" }
+            },
+            "interactivity": { "detect_on": "canvas", "events": { "onhover": { "enable": true, "mode": "repulse" } },
+                "modes": { "repulse": { "distance": 60, "duration": 0.4 } }
+            },
+            "retina_detect": true
+        });
+
+        // --- JavaScript لمنطق الاختبار والمشاركة ---
+
+        // --- المتغيرات الأساسية ---
+        const testForm = document.getElementById('iq-test-form');
+        const testContent = document.getElementById('test-content');
+        const resultContent = document.getElementById('result-content');
+        const shareBtn = document.getElementById('share-btn');
+        let finalResultText = ''; // متغير لتخزين نص النتيجة للمشاركة
+
+        // --- عند الضغط على "إظهار النتيجة" ---
+        testForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let totalScore = 0;
+            const totalQuestions = 10;
+            const formData = new FormData(testForm);
+            const answeredQuestions = Array.from(formData.keys()).length;
+
+            if (answeredQuestions < totalQuestions) {
+                alert(`ركز وجاوب على كل الأسئلة! فاضل لك ${totalQuestions - answeredQuestions} سؤال.`);
+                return;
+            }
+
+            for (let value of formData.values()) {
+                totalScore += parseInt(value, 10);
+            }
+            
+            let result = {};
+            const resultsData = [
+                { min: 10, max: 15, title: "محتاج تطوير", emoji: "📘", desc: "نسبة ذكائك 30-39%" },
+                { min: 16, max: 21, title: "ذكاء قليل", emoji: "😅", desc: "نسبة ذكائك 40-54%" },
+                { min: 22, max: 27, title: "ذكاء متوسط", emoji: "🤔", desc: "نسبة ذكائك 55-69%" },
+                { min: 28, max: 33, title: "ذكاء جيد", emoji: "🤓", desc: "نسبة ذكائك 70-84%" },
+                { min: 34, max: 37, title: "ذكاء عالي", emoji: "🧠", desc: "نسبة ذكائك 85-94%" },
+                { min: 38, max: 40, title: "ذكاء فائق", emoji: "💡", desc: "نسبة ذكائك 95-100%" }
+            ];
+            for(const res of resultsData) {
+                if (totalScore >= res.min && totalScore <= res.max) {
+                    result = res;
+                    break;
+                }
+            }
+
+            // --- تجهيز رسالة المشاركة ---
+            finalResultText = `💡 نتيجتي في اختبار الذكاء هي: "${result.title}" (${result.desc}) ${result.emoji}. ادخل شوف شخصيتك انت كمان!`;
+
+            // --- عرض النتيجة النهائية ---
+            showResult(result.title, result.emoji, result.desc, totalScore);
+        });
+
+        // --- دالة إظهار النتيجة ---
+        function showResult(title, emoji, description, score) {
+            document.getElementById('result-title').textContent = title;
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('result-description').textContent = description;
+            document.getElementById('result-score').textContent = `مجموع نقاطك: ${score}`;
+            testContent.classList.add('hidden');
+            resultContent.classList.remove('hidden');
+        }
+
+        // --- عند الضغط على زر "المشاركة" ---
+        shareBtn.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'اعرف شخصيتك مع xozero!',
+                        text: finalResultText,
+                        url: window.location.origin 
+                    });
+                } catch (error) {
+                    console.error('حدث خطأ أثناء المشاركة:', error);
+                }
+            } else {
+                alert('متصفحك لا يدعم خاصية المشاركة. يمكنك نسخ الرابط يدوياً.');
+            }
+        });
+    </script>
+    <!-- ▲▲▲ نهاية كود JavaScript الجديد ▲▲▲ -->
+
+
+    <!-- Footer Section -->
+    <footer style="background-color: #000; color: #fff; padding: 40px 20px; margin-top: 60px; position: relative; z-index: 1;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px;">
+                <!-- Logo Section -->
+                <div style="flex: 1; min-width: 200px;">
+                    <div style="margin-bottom: 20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="150" height="75">
+                            <defs>
+                                <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#4169E1;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#1E3A8A;stop-opacity:1" />
+                                </linearGradient>
+                                <filter id="shadow">
+                                    <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.5"/>
+                                </filter>
+                            </defs>
+                            <text x="20" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#blueGrad)" filter="url(#shadow)">X</text>
+                            <text x="70" y="65" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#blueGrad)" filter="url(#shadow)">O</text>
+                            <path d="M 15 75 Q 100 85 185 70" stroke="#C0C0C0" stroke-width="3" fill="none" opacity="0.8"/>
+                            <text x="100" y="92" font-family="Arial, sans-serif" font-size="10" font-weight="normal" fill="#4169E1" text-anchor="middle">ZAMZAXOZERO</text>
+                        </svg>
+                    </div>
+                    <p style="font-size: 0.9rem; line-height: 1.6; color: #ccc;">منصة xozero لاختبارات الشخصية والترفيه. اكتشف نفسك من خلال اختباراتنا الممتعة والمتنوعة.</p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div style="flex: 1; min-width: 200px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: #4169E1;">روابط سريعة</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="index.html" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الصفحة الرئيسية</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html" style="color: #ccc; text-decoration: none; transition: color 0.3s;">سياسة الخصوصية</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html#security" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الأمان</a></li>
+                        <li style="margin-bottom: 10px;"><a href="privacy.html#terms" style="color: #ccc; text-decoration: none; transition: color 0.3s;">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div style="flex: 1; min-width: 200px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: #4169E1;">معلومات التواصل</h3>
+                    <p style="font-size: 0.9rem; line-height: 1.8; color: #ccc;">
+                        <strong>البريد الإلكتروني:</strong><br>
+                        <a href="mailto:xozero010@gmail.com" style="color: #82aaff; text-decoration: none;">xozero010@gmail.com</a>
+                    </p>
+                    <p style="font-size: 0.9rem; line-height: 1.8; color: #ccc; margin-top: 15px;">
+                        <strong>رقم الهاتف:</strong><br>
+                        <a href="tel:+201014412927" style="color: #82aaff; text-decoration: none;">+201014412927</a>
+                    </p>
+                    <p style="font-size: 0.85rem; margin-top: 15px; color: #999;">للشكاوى والاستفسارات، نحن هنا لخدمتك.</p>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div style="border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; text-align: center;">
+                <p style="font-size: 0.85rem; color: #888;">&copy; 2024 xozero. جميع الحقوق محفوظة. | <a href="privacy.html" style="color: #82aaff; text-decoration: none;">سياسة الخصوصية</a> | <a href="privacy.html#terms" style="color: #82aaff; text-decoration: none;">الشروط والأحكام</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
