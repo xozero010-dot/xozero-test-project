@@ -28,20 +28,23 @@
             padding: 0;
         }
 
+        
         body {
             font-family: 'Cairo', sans-serif;
-            background: var(--dark-blue-bg);
-            background: -webkit-linear-gradient(to top, var(--gradient-end), var(--gradient-start), var(--dark-blue-bg));
-            background: linear-gradient(to top, var(--gradient-end), var(--gradient-start), var(--dark-blue-bg));
-            color: var(--text-primary);
+            margin: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* ترتيب العناصر عمودياً */
+            justify-content: space-between; /* توزيع المساحة بين العناصر */
             min-height: 100vh;
-            padding: 40px 20px;
-            overflow-x: hidden;
+            /* خلفية زرقاء غامقة وعميقة */
+            background: #0f0c29;
+            background: -webkit-linear-gradient(to top, #24243e, #302b63, #0f0c29);
+            background: linear-gradient(to top, #24243e, #302b63, #0f0c29);
+            color: #e0e0e0; /* لون نص فاتح للتباين */
+            overflow-x: hidden; /* لمنع ظهور أي أشرطة تمرير بسبب المؤثرات */
             position: relative;
         }
+        
 
         /* --- Magical Particle Effect Container --- */
         #particles-js {
@@ -380,6 +383,10 @@
 
 
 
+    
+
+
+    <div style="clear: both;"></div>
     
 
 
