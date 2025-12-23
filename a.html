@@ -397,19 +397,42 @@
 
         // --- عند الضغط على زر "المشاركة" ---
         shareBtn.addEventListener('click', async () => {
-            if (navigator.share) {
+            const shareData = {
+                title: 'اعرف شخصيتك مع xozero!',
+                text: finalResultText,
+                url: 'https://xozero010-dot.github.io/xozero-app/'
+            };
+
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                 try {
-                    await navigator.share({
-                        title: 'اعرف شخصيتك مع xozero!',
-                        text: finalResultText,
-                      url: 'https://xozero010-dot.github.io/xozero-app/'});
+                    await navigator.share(shareData);
                 } catch (error) {
-                    console.error('حدث خطأ أثناء المشاركة:', error);
+                    if (error.name !== 'AbortError') {
+                        copyToClipboard(shareData.url);
+                    }
                 }
             } else {
-                alert('متصفحك لا يدعم خاصية المشاركة. يمكنك نسخ الرابط يدوياً.');
+                copyToClipboard(shareData.url);
             }
         });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('تم نسخ رابط الموقع بنجاح! يمكنك الآن مشاركته مع أصدقائك.');
+            }).catch(err => {
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('تم نسخ رابط الموقع بنجاح!');
+                } catch (err) {
+                    alert('الرابط هو: ' + text);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
     </script>
     <!-- ▲▲▲ نهاية كود JavaScript الجديد ▲▲▲ -->
 
