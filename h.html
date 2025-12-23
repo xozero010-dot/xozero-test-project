@@ -15,8 +15,8 @@
             --gradient-end: #24243e;
             --text-primary: #e0e0e0;
             --text-secondary: #a7a4c4;
-            --accent-color: #ff82ac; /* لون وردي يناسب اختبار الحب */
-            --accent-dark: #e0e0e0;
+            --accent-color: #ff82ac; /* لون وردي لاختبار الحب */
+            --accent-dark: #000;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
             --shadow-color: rgba(0, 0, 0, 0.37);
@@ -29,27 +29,21 @@
             padding: 0;
         }
 
-        
-        
         body {
             font-family: 'Cairo', sans-serif;
             margin: 0;
             display: flex;
-            flex-direction: column; /* ترتيب العناصر عمودياً */
-            justify-content: space-between; /* توزيع المساحة بين العناصر */
+            flex-direction: column;
+            justify-content: space-between;
             min-height: 100vh;
-            /* خلفية زرقاء غامقة وعميقة */
             background: #0f0c29;
             background: -webkit-linear-gradient(to top, #24243e, #302b63, #0f0c29);
             background: linear-gradient(to top, #24243e, #302b63, #0f0c29);
-            color: #e0e0e0; /* لون نص فاتح للتباين */
-            overflow-x: hidden; /* لمنع ظهور أي أشرطة تمرير بسبب المؤثرات */
+            color: #e0e0e0;
+            overflow-x: hidden;
             position: relative;
         }
-        
-        
 
-        /* --- Magical Particle Effect Container --- */
         #particles-js {
             position: fixed;
             width: 100%;
@@ -59,12 +53,13 @@
             z-index: 0;
         }
 
-        /* --- Main Test Container --- */
         .test-wrapper {
             position: relative;
             z-index: 1;
             width: 100%;
             max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         .test-container {
@@ -78,12 +73,10 @@
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        /* Hide/Show Logic */
         .hidden {
             display: none;
         }
 
-        /* --- Test Header --- */
         .test-header {
             text-align: center;
             margin-bottom: 35px;
@@ -98,7 +91,6 @@
             color: var(--text-secondary);
         }
 
-        /* --- Questions --- */
         .question-block {
             margin-bottom: 30px;
             padding-bottom: 30px;
@@ -135,35 +127,33 @@
         }
         .choices input:checked + label {
             background: var(--accent-color);
-            color: var(--dark-blue-bg);
+            color: #fff;
             border-color: var(--accent-color);
             font-weight: bold;
         }
 
-        /* --- Buttons --- */
         .glass-button {
             display: block;
             width: 100%;
             padding: 20px;
             margin-top: 20px;
             text-decoration: none;
-            color: var(--accent-dark);
             font-size: 1.5rem;
             font-weight: 700;
             background: var(--accent-color);
-            color: var(--dark-blue-bg);
+            color: #fff;
             border-radius: 15px;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-align: center;
         }
         .glass-button:hover {
-            background: #ffadd4;
+            background: #ff6b9d;
             transform: translateY(-3px);
             box-shadow: 0 8px 20px 0 rgba(255, 130, 172, 0.2);
         }
 
-        /* --- Result Styles --- */
         .result-container {
             text-align: center;
         }
@@ -192,115 +182,112 @@
             margin-bottom: 40px;
         }
     </style>
-
 </head>
 <body>
 
     <div id="particles-js"></div>
 
     <div class="test-wrapper">
-        <!-- حاوية الاختبار (الأسئلة) -->
         <div id="test-content" class="test-container">
             <div class="test-header">
                 <h1>💖 اختبار الحب</h1>
-                <p>جاوب بصدق على الأسئلة اللي جاية عشان تعرف مشاعر الشخص اللي في بالك ناحيتك.</p>
+                <p>جاوب على الأسئلة بصدق عشان تعرف حقيقة مشاعر الطرف التاني تجاهك!</p>
             </div>
             <form id="love-test-form">
                 <div class="question-block">
-                    <p class="question-text">1. لو شافك صدفة في مكان عام، تصرفه بيكون إيه؟</p>
+                    <p class="question-text">1. لما بتشوفه، رد فعله بيكون إيه؟</p>
                     <div class="choices">
-                        <input type="radio" id="q1a" name="q1" value="1"><label for="q1a">(أ) بيعمل نفسه مش واخد باله وبيكمل كلامه عادي.</label>
-                        <input type="radio" id="q1b" name="q1" value="2"><label for="q1b">(ب) بيبتسم ابتسامة سريعة وبيكمل اللي كان بيعمله.</label>
-                        <input type="radio" id="q1c" name="q1" value="4"><label for="q1c">(ج) بيسيب اللي في إيده وبيجي يسلم عليك ويتكلم معاك شوية.</label>
-                        <input type="radio" id="q1d" name="q1" value="3"><label for="q1d">(د) بياخد وقت عشان ياخد باله، ولما بيشوفك بيبان عليه التوتر.</label>
+                        <input type="radio" id="q1a" name="q1" value="1"><label for="q1a">(أ) بيبتسم ابتسامة خفيفة ويسلم عادي.</label>
+                        <input type="radio" id="q1b" name="q1" value="2"><label for="q1b">(ب) بيفرح جداً وعينه بتلمع لما بيشوفني.</label>
+                        <input type="radio" id="q1c" name="q1" value="4"><label for="q1c">(ج) بيحاول يتجنب النظر في عيني بس بيبان عليه التوتر.</label>
+                        <input type="radio" id="q1d" name="q1" value="3"><label for="q1d">(د) بيسلم ببرود كأني شخص غريب.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">2. لما بتتكلموا، بيفتكر التفاصيل الصغيرة اللي قولتها قبل كده؟</p>
+                    <p class="question-text">2. هل بيبادر بالكلام معاك أو بيبعت رسايل؟</p>
                     <div class="choices">
-                        <input type="radio" id="q2a" name="q2" value="1"><label for="q2a">(أ) لأ خالص، بلاقي نفسي بعيد الكلام أكتر من مرة.</label>
-                        <input type="radio" id="q2b" name="q2" value="2"><label for="q2b">(ب) بيفتكر الحاجات المهمة بس، زي المواعيد أو القرارات.</label>
-                        <input type="radio" id="q2c" name="q2" value="4"><label for="q2c">(ج) آه، بيفتكر تفاصيل صغيرة زي اسم أكلة بتحبها أو موقف حصل معاك زمان.</label>
-                        <input type="radio" id="q2d" name="q2" value="3"><label for="q2d">(د) أوقات بيفتكر تفاصيل، وأوقات لأ، الموضوع مش ثابت.</label>
+                        <input type="radio" id="q2a" name="q2" value="1"><label for="q2a">(أ) دايماً أنا اللي ببدأ الكلام.</label>
+                        <input type="radio" id="q2b" name="q2" value="2"><label for="q2b">(ب) أحياناً بيبعت رسايل يطمن عليا.</label>
+                        <input type="radio" id="q2c" name="q2" value="4"><label for="q2c">(ج) دايماً بيبادر بالكلام وبيفتح مواضيع كتير.</label>
+                        <input type="radio" id="q2d" name="q2" value="3"><label for="q2d">(د) مش بيكلمني خالص غير لو فيه مصلحة.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">3. لما بتطلب منه مساعدة في حاجة، رد فعله بيكون إيه؟</p>
+                    <p class="question-text">3. لما بتتكلم، هل بيسمعك باهتمام؟</p>
                     <div class="choices">
-                        <input type="radio" id="q3a" name="q3" value="1"><label for="q3a">(أ) بيعتذر بلطف وبيقول إنه مشغول ومش فاضي.</label>
-                        <input type="radio" id="q3b" name="q3" value="2"><label for="q3b">(ب) بيوافق بس بيبين إنه مش متحمس أو مستعجل يخلص.</label>
-                        <input type="radio" id="q3c" name="q3" value="4"><label for="q3c">(ج) بيعمل أي حاجة عشان يساعدك وبيسألك لو محتاج حاجة تاني.</label>
-                        <input type="radio" id="q3d" name="q3" value="3"><label for="q3d">(د) بيسألك ليه بتطلب منه هو بالذات المساعدة دي.</label>
+                        <input type="radio" id="q3a" name="q3" value="1"><label for="q3a">(أ) بيسمع بس بيبان عليه الملل أحياناً.</label>
+                        <input type="radio" id="q3b" name="q3" value="2"><label for="q3b">(ب) بيركز في كل كلمة وبيرد عليا باهتمام.</label>
+                        <input type="radio" id="q3c" name="q3" value="4"><label for="q3c">(ج) بيقاطعني كتير عشان يتكلم عن نفسه.</label>
+                        <input type="radio" id="q3d" name="q3" value="3"><label for="q3d">(د) بيمسك الموبايل وهو بيسمعني.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">4. لما بيكون مع صحابه أو في مجموعة، بيتعامل معاك إزاي؟</p>
+                    <p class="question-text">4. هل بيفتكر تفاصيل صغيرة قولتها قبل كدة؟</p>
                     <div class="choices">
-                        <input type="radio" id="q4a" name="q4" value="1"><label for="q4a">(أ) بيتعامل معايا زي أي حد تاني في المجموعة.</label>
-                        <input type="radio" id="q4b" name="q4" value="2"><label for="q4b">(ب) بيقلل من كلامه معايا عشان يركز مع صحابه.</label>
-                        <input type="radio" id="q4c" name="q4" value="4"><label for="q4c">(ج) بيحاول يشركني في الحوار وبيكون حريص إني مكونش لوحدي.</label>
-                        <input type="radio" id="q4d" name="q4" value="3"><label for="q4d">(د) بيبصلي من بعيد من وقت للتاني.</label>
+                        <input type="radio" id="q4a" name="q4" value="1"><label for="q4a">(أ) بيفتكر الحاجات المهمة بس.</label>
+                        <input type="radio" id="q4b" name="q4" value="2"><label for="q4b">(ب) بيفتكر أدق التفاصيل اللي قولتها.</label>
+                        <input type="radio" id="q4c" name="q4" value="4"><label for="q4c">(ج) دايماً بينسى كل حاجة بقولها.</label>
+                        <input type="radio" id="q4d" name="q4" value="3"><label for="q4d">(د) بيفتكر بس الحاجات اللي تخصه.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">5. لو غبت عنه أو مكلمتهوش فترة، بيحاول يتطمن عليك؟</p>
+                    <p class="question-text">5. هل بيحاول يقرب منك أو يتواجد في الأماكن اللي أنت فيها؟</p>
                     <div class="choices">
-                        <input type="radio" id="q5a" name="q5" value="1"><label for="q5a">(أ) لأ، بيستنى لحد أنا ما أرجع أكلمه.</label>
-                        <input type="radio" id="q5b" name="q5" value="2"><label for="q5b">(ب) بيبعت رسالة واحدة يسأل فيها على السريع: "إنت فين؟".</label>
-                        <input type="radio" id="q5c" name="q5" value="4"><label for="q5c">(ج) بيتصل بيا أو بيبعت رسالة طويلة يسأل عن سبب الغياب.</label>
-                        <input type="radio" id="q5d" name="q5" value="3"><label for="q5d">(د) بيسأل صحابنا المشتركين عني من غير ما يكلمني أنا مباشرة.</label>
+                        <input type="radio" id="q5a" name="q5" value="1"><label for="q5a">(أ) لو صدفة ماشي، لكن مش بيحاول يقصد.</label>
+                        <input type="radio" id="q5b" name="q5" value="2"><label for="q5b">(ب) بيحاول دايماً يكون موجود في نفس المكان.</label>
+                        <input type="radio" id="q5c" name="q5" value="4"><label for="q5c">(ج) بيسأل صحابنا المشتركين عني دايماً.</label>
+                        <input type="radio" id="q5d" name="q5" value="3"><label for="q5d">(د) بيحاول يتجنب الأماكن اللي بكون فيها.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">6. لما بتيجوا تتفقوا على مقابلة، مين اللي بيقترح المواعيد والأماكن أكتر؟</p>
+                    <p class="question-text">6. لما بتيجوا تتفقوا على مقابلة، مين اللي بيقترح المواعيد؟</p>
                     <div class="choices">
-                        <input type="radio" id="q6a" name="q6" value="1"><label for="q6a">(أ) أنا اللي دايماً بقترح كل حاجة، وهو بيوافق أو يرفض.</label>
-                        <input type="radio" id="q6b" name="q6" value="2"><label for="q6b">(ب) أنا وهو بنتناوب في الاقتراحات، مفيش حد أكتر من التاني.</label>
-                        <input type="radio" id="q6c" name="q6" value="4"><label for="q6c">(ج) هو اللي دايماً بيقترح مواعيد وبيقول لي: "إنت فاضي امتى؟".</label>
-                        <input type="radio" id="q6d" name="q6" value="3"><label for="q6d">(د) مفيش بينا مقابلات كتير عشان الموضوع صعب في التنسيق.</label>
+                        <input type="radio" id="q6a" name="q6" value="1"><label for="q6a">(أ) أنا اللي دايماً بقترح.</label>
+                        <input type="radio" id="q6b" name="q6" value="2"><label for="q6b">(ب) هو اللي دايماً بيقترح ويصر نقابل بعض.</label>
+                        <input type="radio" id="q6c" name="q6" value="4"><label for="q6c">(ج) بنتناوب في الاقتراحات عادي.</label>
+                        <input type="radio" id="q6d" name="q6" value="3"><label for="q6d">(د) مش بنتقابل أصلاً.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">7. في كلامه معاك، بيستخدم كلمة "إحنا" أو "بتمنى" كتير؟</p>
+                    <p class="question-text">7. في كلامه معاك، بيستخدم كلمة "إحنا" كتير؟</p>
                     <div class="choices">
-                        <input type="radio" id="q7a" name="q7" value="1"><label for="q7a">(أ) لأ، كلامه دايماً عن نفسه أو عن اللي بيحصل دلوقتي.</label>
-                        <input type="radio" id="q7b" name="q7" value="2"><label for="q7b">(ب) بيستخدمها بس لما بنتكلم عن حاجة تخص الشغل أو الدراسة.</label>
-                        <input type="radio" id="q7c" name="q7" value="4"><label for="q7c">(ج) آه، بيتكلم عن خطط مستقبلية فيها أنا وهو ("إحنا ممكن نعمل كذا").</label>
-                        <input type="radio" id="q7d" name="q7" value="3"><label for="q7d">(د) بيستنى أنا اللي أتكلم عن المستقبل وهو بيسمع.</label>
+                        <input type="radio" id="q7a" name="q7" value="1"><label for="q7a">(أ) لأ، كلامه دايماً عن نفسه.</label>
+                        <input type="radio" id="q7b" name="q7" value="2"><label for="q7b">(ب) آه، بيتكلم عن خطط مستقبلية فيها أنا وهو.</label>
+                        <input type="radio" id="q7c" name="q7" value="4"><label for="q7c">(ج) بيستخدمها بس في الشغل أو الدراسة.</label>
+                        <input type="radio" id="q7d" name="q7" value="3"><label for="q7d">(د) مش بيتكلم عن المستقبل خالص.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">8. هل فيه تغيير ملحوظ في طريقة كلامه أو صوته لما بيكون بيكلمك أنت بالذات؟</p>
+                    <p class="question-text">8. هل فيه تغيير في نبرة صوته لما بيكلمك؟</p>
                     <div class="choices">
-                        <input type="radio" id="q8a" name="q8" value="1"><label for="q8a">(أ) لأ، صوته عادي ومفيش أي تغيير.</label>
-                        <input type="radio" id="q8b" name="q8" value="2"><label for="q8b">(ب) صوته بيبقى أعلى أو بيتكلم بسرعة أكتر لما بيكون متحمس.</label>
-                        <input type="radio" id="q8c" name="q8" value="4"><label for="q8c">(ج) صوته بيبقى أهدى أو فيه نبرة مختلفة شوية فيها حنية أو اهتمام.</label>
-                        <input type="radio" id="q8d" name="q8" value="3"><label for="q8d">(د) مش براقب نبرة صوته أوي الصراحة.</label>
+                        <input type="radio" id="q8a" name="q8" value="1"><label for="q8a">(أ) لأ، صوته عادي جداً.</label>
+                        <input type="radio" id="q8b" name="q8" value="2"><label for="q8b">(ب) صوته بيبقى أهدى وفيه اهتمام أكتر.</label>
+                        <input type="radio" id="q8c" name="q8" value="4"><label for="q8c">(ج) صوته بيبقى عالي ومزعج.</label>
+                        <input type="radio" id="q8d" name="q8" value="3"><label for="q8d">(د) مش بركز في صوته.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">9. لما بتكون مضايق أو متضايقة، رد فعله بيكون إيه؟</p>
+                    <p class="question-text">9. لما بتكون مضايق، رد فعله بيكون إيه؟</p>
                     <div class="choices">
-                        <input type="radio" id="q9a" name="q9" value="1"><label for="q9a">(أ) بيسمعني ومش بيتدخل في الموضوع إلا لو طلبت منه رأي.</label>
-                        <input type="radio" id="q9b" name="q9" value="2"><label for="q9b">(ب) بيحاول يغير الموضوع عشان متبقاش متضايق.</label>
-                        <input type="radio" id="q9c" name="q9" value="4"><label for="q9c">(ج) بيحاول يهون عليك ويديك كلام يشجعك ويهتم بمشاعرك.</label>
-                        <input type="radio" id="q9d" name="q9" value="3"><label for="q9d">(د) بيسأل: "إيه اللي مضايقك بالظبط؟" بس مش بيفتح حوار طويل.</label>
+                        <input type="radio" id="q9a" name="q9" value="1"><label for="q9a">(أ) بيسمعني بس مش بيعمل حاجة.</label>
+                        <input type="radio" id="q9b" name="q9" value="2"><label for="q9b">(ب) بيحاول يهون عليا ويهتم بمشاعري جداً.</label>
+                        <input type="radio" id="q9c" name="q9" value="4"><label for="q9c">(ج) بيغير الموضوع بسرعة.</label>
+                        <input type="radio" id="q9d" name="q9" value="3"><label for="q9d">(د) بيقولي "معلش" ويسكت.</label>
                     </div>
                 </div>
                 <div class="question-block">
-                    <p class="question-text">10. لو نزلت صورة ليك على السوشيال ميديا، تصرفه بيكون إيه؟</p>
+                    <p class="question-text">10. لو نزلت صورة ليك، تصرفه بيكون إيه؟</p>
                     <div class="choices">
-                        <input type="radio" id="q10a" name="q10" value="1"><label for="q10a">(أ) مش بيعمل أي حاجة ولا بيشوفها أصلاً.</label>
-                        <input type="radio" id="q10b" name="q10" value="2"><label for="q10b">(ب) بيشوفها وبيعمل لايك على طول.</label>
-                        <input type="radio" id="q10c" name="q10" value="4"><label for="q10c">(ج) بيعمل لايك وممكن يسيب كومنت بسيط أو يبعتلك رسالة خاصة عليها.</label>
-                        <input type="radio" id="q10d" name="q10" value="3"><label for="q10d">(د) بيشوفها بس، وممكن بعد فترة طويلة يعمل لايك.</label>
+                        <input type="radio" id="q10a" name="q10" value="1"><label for="q10a">(أ) مش بيعمل أي حاجة.</label>
+                        <input type="radio" id="q10b" name="q10" value="2"><label for="q10b">(ب) بيعمل لايك وكومنت ويبعت رسالة خاصة.</label>
+                        <input type="radio" id="q10c" name="q10" value="4"><label for="q10c">(ج) بيعمل لايك بس.</label>
+                        <input type="radio" id="q10d" name="q10" value="3"><label for="q10d">(د) بيشوفها بس.</label>
                     </div>
                 </div>
                 <button type="submit" class="glass-button">إظهار النتيجة</button>
             </form>
         </div>
 
-        <!-- ▼▼▼ حاوية النتيجة الجديدة ▼▼▼ -->
         <div id="result-content" class="test-container result-container hidden">
             <h1 id="result-title" class="result-title">النتيجة النهائية</h1>
             <div id="result-emoji" class="result-emoji">🤔</div>
@@ -313,15 +300,11 @@
             
             <a href="index.html" class="glass-button">العب اختبار تاني</a>
         </div>
-        <!-- ▲▲▲ نهاية حاوية النتيجة الجديدة ▲▲▲ -->
     </div>
 
-    <!-- مكتبة المؤثرات السحرية (particles.js) -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
-    <!-- ▼▼▼ كود JavaScript الجديد ▼▼▼ -->
     <script>
-        // --- JavaScript لتشغيل المؤثرات السحرية ---
         particlesJS('particles-js', {
             "particles": {
                 "number": { "value": 60, "density": { "enable": true, "value_area": 800 } },
@@ -338,16 +321,12 @@
             "retina_detect": true
         });
 
-        // --- JavaScript لمنطق الاختبار والمشاركة ---
-
-        // --- المتغيرات الأساسية ---
         const testForm = document.getElementById('love-test-form');
         const testContent = document.getElementById('test-content');
         const resultContent = document.getElementById('result-content');
         const shareBtn = document.getElementById('share-btn');
-        let finalResultText = ''; // متغير لتخزين نص النتيجة للمشاركة
+        let finalResultText = '';
 
-        // --- عند الضغط على "إظهار النتيجة" ---
         testForm.addEventListener('submit', function(event) {
             event.preventDefault();
             
@@ -381,14 +360,10 @@
                 }
             }
 
-            // --- تجهيز رسالة المشاركة ---
             finalResultText = `💖 نتيجتي في اختبار الحب هي: "${result.title}" ${result.emoji}. ادخل شوف شخصيتك انت كمان!`;
-
-            // --- عرض النتيجة النهائية ---
             showResult(result.title, result.emoji, totalScore);
         });
 
-        // --- دالة إظهار النتيجة ---
         function showResult(title, emoji, score) {
             document.getElementById('result-title').textContent = title;
             document.getElementById('result-emoji').textContent = emoji;
@@ -396,9 +371,9 @@
             document.getElementById('result-score').textContent = `مجموع نقاطك: ${score}`;
             testContent.classList.add('hidden');
             resultContent.classList.remove('hidden');
+            window.scrollTo(0, 0);
         }
 
-                // --- عند الضغط على زر "المشاركة" ---
         shareBtn.addEventListener('click', async () => {
             const shareData = {
                 title: 'اعرف شخصيتك مع xozero!',
@@ -437,18 +412,5 @@
             });
         }
     </script>
-    <!-- ▲▲▲ نهاية كود JavaScript الجديد ▲▲▲ -->
-
-    
-    
-    
-    
-
-    
-
-    
-
-    
-
 </body>
 </html>
